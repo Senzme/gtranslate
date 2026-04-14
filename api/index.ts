@@ -1,4 +1,4 @@
-import { translate } from '../src/index.ts';
+import { translate } from '../src/index.js';
 
 const landingPage = `<!DOCTYPE html>
 <html lang="en">
