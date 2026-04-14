@@ -311,7 +311,7 @@ const guiPage = `<!DOCTYPE html>
     </main>
 
     <script>
-        const langs = \${JSON.stringify(langList)};
+        const langs = ${JSON.stringify(langList)};
         const input = document.getElementById('input-text');
         const output = document.getElementById('output-text');
         const srcSelect = document.getElementById('src-lang');
