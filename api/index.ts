@@ -10,101 +10,127 @@ const landingPage = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gtranslate API | Live</title>
+    <title>GTranslater API | Premium Translation Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --bg: #0f172a;
-            --text: #f8fafc;
-            --card: #1e293b;
+            --bg-base: #0a0b10;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --primary: #6366f1;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            text-align: center;
+            overflow: hidden;
+        }
+        .bg-orbs {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.5;
+        }
+        .orb { position: absolute; border-radius: 50%; animation: move linear infinite; }
+        .orb-1 { width: 400px; height: 400px; background: #6366f1; top: -100px; left: -100px; animation-duration: 40s; }
+        .orb-2 { width: 300px; height: 300px; background: #a855f7; bottom: -50px; right: -50px; animation-duration: 35s; }
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 50px) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
         }
         .container {
-            max-width: 600px;
-            padding: 2rem;
-            background: var(--card);
-            border-radius: 1.5rem;
+            max-width: 550px;
+            width: 90%;
+            padding: 3rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: opacity 0.2s;
-        }
-        .btn:hover { opacity: 0.9; }
-        .code-box {
-            background: #000;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            text-align: left;
-            margin-top: 2rem;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            border: 1px solid #334155;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            position: relative;
         }
         .status {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.75rem;
-            background: rgba(34, 197, 94, 0.2);
+            padding: 0.4rem 1rem;
+            background: rgba(34, 197, 94, 0.15);
             color: #4ade80;
-            border-radius: 9999px;
-            font-size: 0.875rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
             margin-bottom: 2rem;
+            border: 1px solid rgba(74, 222, 128, 0.3);
         }
         .status::before {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             background: #22c55e;
             border-radius: 50%;
             margin-right: 8px;
             box-shadow: 0 0 10px #22c55e;
         }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p { color: var(--text-dim); line-height: 1.6; font-size: 1.1rem; }
+        .btn {
+            display: inline-block;
+            margin-top: 2.5rem;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 1rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5); }
+        .code-box {
+            background: rgba(0,0,0,0.3);
+            padding: 1.2rem;
+            border-radius: 1rem;
+            text-align: left;
+            margin-top: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            border: 1px solid var(--glass-border);
+            color: #bbc4d0;
+        }
     </style>
 </head>
 <body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
     <div class="container">
         <div class="status">API is Live</div>
-        <h1>gtranslate</h1>
-        <p>Your free and unlimited translation API is successfully deployed and ready to use.</p>
+        <h1>GTranslater</h1>
+        <p>Premium translation API, now with a stunning modern GUI. Free, unlimited, and lightning-fast.</p>
         
         <div class="code-box">
-            <span style="color: #6366f1;">GET</span> /?text=<span style="color: #fbbf24;">Hello</span>&to=<span style="color: #fbbf24;">ru</span>
+            <span style="color: #818cf8;">GET</span> /?text=<span style="color: #fbbf24;">Hello</span>&to=<span style="color: #fbbf24;">hi</span>
         </div>
         
-        <a href="/gui" class="btn">Open GTranslater GUI</a>
+        <a href="/gui" class="btn">Open Premium GUI</a>
         
-        <p style="margin-top: 2rem; font-size: 0.8rem;">Powered by senzme/gtranslate</p>
+        <p style="margin-top: 2.5rem; font-size: 0.85rem; opacity: 0.7;">Powered by Senzme</p>
     </div>
 </body>
 </html>`;
@@ -114,196 +140,483 @@ const guiPage = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTranslater | Modern GUI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>GTranslater | Premium AI Translator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4285f4;
-            --bg: #f8f9fa;
-            --text: #202124;
-            --border: #dadce0;
-            --shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            /* Shared */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 1.2rem;
+            
+            /* Dark Theme (Default) */
+            --bg-base: #0a0b10;
+            --bg-gradient: linear-gradient(135deg, #0a0b10 0%, #161b22 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.3);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            --input-bg: rgba(0, 0, 0, 0.2);
         }
+
+        body.light-mode {
+            /* Light Theme */
+            --bg-base: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(99, 102, 241, 0.2);
+            --text-main: #1e293b;
+            --text-dim: #64748b;
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.2);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
+            background: var(--bg-base);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
+            transition: var(--transition);
         }
-        header {
+
+        /* Animated Background Orbs */
+        .bg-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 1rem 2rem;
-            background: white;
-            border-bottom: 1px solid var(--border);
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            filter: blur(80px);
+            opacity: 0.6;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            animation: move linear infinite;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #6366f1; top: -100px; left: -100px; animation-duration: 40s; opacity: 0.4; }
+        .orb-2 { width: 300px; height: 300px; background: #a855f7; bottom: -50px; right: -50px; animation-duration: 35s; animation-direction: reverse; opacity: 0.3; }
+        .orb-3 { width: 250px; height: 250px; background: #ec4899; top: 40%; left: 50%; animation-duration: 45s; opacity: 0.2; }
+
+        @keyframes move {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, 50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.6rem;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            box-sizing: border-box;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
         }
-        header h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: #5f6368;
-            font-weight: 400;
+        .theme-toggle:hover {
+            transform: rotate(15deg) scale(1.1);
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
         }
-        header span { color: var(--primary); font-weight: 600; }
 
         main {
+            flex: 1;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
+            margin: 0 auto;
             padding: 2rem;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        .controls {
+        .controls-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.2rem;
+            padding: 0.5rem 1.2rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            background: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            justify-content: space-between;
+            gap: 0.8rem;
+            box-shadow: var(--card-shadow);
+            z-index: 50;
         }
 
-        select {
-            padding: 0.5rem;
+        /* Custom Dropdown Styling */
+        .custom-dropdown {
+            flex: 1;
+            position: relative;
+            height: 44px;
+        }
+
+        .dropdown-trigger {
+            width: 100%;
+            height: 100%;
+            background: transparent;
             border: none;
-            background: none;
+            color: var(--text-main);
             font-family: inherit;
             font-size: 1rem;
+            font-weight: 600;
+            padding: 0 1rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0.8rem;
+            transition: var(--transition);
+        }
+        .dropdown-trigger:hover {
+            background: var(--input-bg);
+        }
+        .dropdown-trigger::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--text-dim);
+            border-bottom: 2px solid var(--text-dim);
+            transform: rotate(45deg);
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+        .custom-dropdown.open .dropdown-trigger::after {
+            transform: rotate(-135deg);
+            margin-top: 5px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 320px;
+            max-height: 450px;
+            background: var(--bg-base);
+            background-color: rgba(20, 22, 30, 0.98);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.2rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            overflow: hidden;
+            animation: slideUp 0.2s ease-out;
+        }
+        body.light-mode .dropdown-menu {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .custom-dropdown.open .dropdown-menu {
+            display: flex;
+        }
+
+        .dropdown-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .dropdown-search input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.8rem;
+            padding: 0.6rem 1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
             outline: none;
-            color: #3c4043;
-            max-width: 200px;
+            transition: var(--transition);
+        }
+        .dropdown-search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .options-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+        }
+        .option-item {
+            padding: 0.8rem 1rem;
+            border-radius: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+        .option-item:hover {
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+        .option-item.selected {
+            background: var(--primary);
+            color: white;
+        }
+        .option-item.hidden {
+            display: none;
         }
 
         .swap-btn {
-            background: none;
+            background: var(--primary);
             border: none;
-            cursor: pointer;
-            padding: 0.5rem;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px var(--primary-glow);
         }
-        .swap-btn:hover { background: #f1f3f4; }
+        .swap-btn:hover { transform: rotate(180deg) scale(1.1); filter: brightness(1.2); }
 
-        .translator-container {
+        .translator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            height: 350px;
+            gap: 1.5rem;
+            min-height: 400px;
         }
 
-        @media (max-width: 768px) {
-            .translator-container { grid-template-columns: 1fr; height: auto; }
-            .translator-box { height: 250px; }
-        }
-
-        .translator-box {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        .panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
             position: relative;
-            transition: box-shadow 0.2s;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border-bottom: 4px solid transparent;
         }
-        .translator-box:focus-within { box-shadow: var(--shadow); border-color: transparent; }
+        .panel:focus-within {
+            border-bottom-color: var(--primary);
+            transform: translateY(-2px);
+        }
 
         textarea {
             width: 100%;
             height: 100%;
+            background: transparent;
             border: none;
             resize: none;
+            color: var(--text-main);
             font-family: inherit;
-            font-size: 1.35rem;
+            font-size: 1.4rem;
+            line-height: 1.5;
             outline: none;
-            color: var(--text);
+            scrollbar-width: thin;
+            user-select: text;
+        }
+        textarea::placeholder { color: var(--text-dim); }
+
+        .output-container {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 150px;
+            user-select: text;
         }
 
-        .output-box { background: #f1f3f4; }
-        .output-text { font-size: 1.35rem; color: var(--text); white-space: pre-wrap; overflow-y: auto; }
-
-        .bottom-actions {
-            position: absolute;
-            bottom: 0.75rem;
-            left: 0.75rem;
-            right: 0.75rem;
+        .actions {
+            margin-top: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
         }
 
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            color: #5f6368;
-            transition: background 0.2s, color 0.2s, transform 0.2s;
+        .action-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: var(--transition);
         }
-        .icon-btn:hover { background: #f1f3f4; color: var(--text); }
-        .icon-btn.active { 
-            color: #d93025; 
-            background: #fce8e6; 
-            animation: pulse 1.5s infinite;
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            border-color: transparent;
+        }
+        .action-btn.active {
+            background: #ef4444;
+            color: white;
+            animation: pulse-red 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 48, 37, 0.4); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(217, 48, 37, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 48, 37, 0); }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
-        #char-count { margin-left: auto; font-size: 0.8rem; color: #70757a; }
+        .char-count {
+            margin-left: auto;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
 
-        .loading-shimmer {
-            background: linear-gradient(90deg, #f1f3f4 25%, #e8eaed 50%, #f1f3f4 75%);
-            background-size: 200% 100%;
+        /* Mobile Adjustments */
+        @media (max-width: 800px) {
+            .translator-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+            .logo { font-size: 1.5rem; }
+            .panel { padding: 1.2rem; min-height: 250px; }
+            textarea, .output-container { font-size: 1.2rem; }
+        }
+
+        /* Shimmer Loading */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
             animation: shimmer 1.5s infinite;
         }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
     </style>
 </head>
-<body>
+<body class="dark-mode">
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
     <header>
-        <h1><span>G</span>Translater</h1>
+        <div class="logo">GTranslater</div>
+        <button class="theme-toggle" id="theme-btn" title="Toggle Light/Dark Mode">
+            <svg id="theme-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
     </header>
 
     <main>
-        <div class="controls">
-            <select id="src-lang"></select>
-            <button class="swap-btn" id="swap-langs" title="Swap languages">
-                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" fill="currentColor"/></svg>
-            </button>
-            <select id="dest-lang"></select>
-        </div>
-
-        <div class="translator-container">
-            <div class="translator-box">
-                <textarea id="input-text" placeholder="Type to translate..."></textarea>
-                <div class="bottom-actions">
-                    <button class="icon-btn" id="mic-btn" title="Powerful Voice Input (Continuous)">
-                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" fill="currentColor"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" fill="currentColor"/></svg>
-                    </button>
-                    <span id="char-count">0 / 5000</span>
+        <div class="controls-card">
+            <div class="custom-dropdown" id="src-dropdown">
+                <button class="dropdown-trigger" id="src-trigger">Auto-detect</button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-search"><input type="text" placeholder="Search languages..."></div>
+                    <div class="options-list"></div>
                 </div>
             </div>
-            <div class="translator-box output-box">
-                <div id="output-text" class="output-text"></div>
-                <div class="bottom-actions">
-                    <button class="icon-btn" id="copy-btn" title="Copy translation">
-                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+            <button class="swap-btn" id="swap-langs" title="Swap languages">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8v12M17 20l-4-4M17 20l4-4"/></svg>
+            </button>
+            <div class="custom-dropdown" id="dest-dropdown">
+                <button class="dropdown-trigger" id="dest-trigger">English</button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-search"><input type="text" placeholder="Search languages..."></div>
+                    <div class="options-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="translator-grid">
+            <div class="panel">
+                <textarea id="input-text" placeholder="Type or paste text here..."></textarea>
+                <div class="actions">
+                    <button class="action-btn" id="mic-btn" title="Voice Input">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    </button>
+                    <button class="action-btn" id="clear-btn" title="Clear Text">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                    <button class="action-btn" id="listen-src-btn" title="Listen">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    </button>
+                    <span class="char-count" id="char-count">0 / 5000</span>
+                </div>
+            </div>
+
+            <div class="panel" id="output-panel">
+                <div id="output-text" class="output-container"></div>
+                <div class="actions">
+                    <button class="action-btn" id="copy-btn" title="Copy to clipboard">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                    <button class="action-btn" id="listen-dest-btn" title="Listen Translation">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                     </button>
                 </div>
             </div>
@@ -314,37 +627,120 @@ const guiPage = `<!DOCTYPE html>
         const langs = ${JSON.stringify(langList)};
         const input = document.getElementById('input-text');
         const output = document.getElementById('output-text');
-        const srcSelect = document.getElementById('src-lang');
-        const destSelect = document.getElementById('dest-lang');
         const micBtn = document.getElementById('mic-btn');
         const copyBtn = document.getElementById('copy-btn');
         const swapBtn = document.getElementById('swap-langs');
         const charCount = document.getElementById('char-count');
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const clearBtn = document.getElementById('clear-btn');
+        const listenSrcBtn = document.getElementById('listen-src-btn');
+        const listenDestBtn = document.getElementById('listen-dest-btn');
+        const outputPanel = document.getElementById('output-panel');
 
-        // Populate languages
-        langs.forEach(l => {
-            const opt1 = document.createElement('option');
-            opt1.value = l.code;
-            opt1.textContent = l.name;
-            srcSelect.appendChild(opt1);
-
-            if (l.code !== 'auto') {
-                const opt2 = document.createElement('option');
-                opt2.value = l.code;
-                opt2.textContent = l.name;
-                destSelect.appendChild(opt2);
+        // Custom Dropdown Logic
+        class DropdownController {
+            constructor(id, defaultValue, onChange, allowAuto = true) {
+                this.container = document.getElementById(id);
+                this.trigger = this.container.querySelector('.dropdown-trigger');
+                this.menu = this.container.querySelector('.dropdown-menu');
+                this.search = this.container.querySelector('input');
+                this.list = this.container.querySelector('.options-list');
+                this.value = defaultValue;
+                this.onChange = onChange;
+                this.allowAuto = allowAuto;
+                
+                this.init();
             }
+
+            init() {
+                // Populate options
+                langs.forEach(l => {
+                    if (l.code === 'auto' && !this.allowAuto) return;
+                    const item = document.createElement('div');
+                    item.className = 'option-item' + (l.code === this.value ? ' selected' : '');
+                    item.dataset.code = l.code;
+                    item.textContent = l.name;
+                    item.addEventListener('click', () => this.select(l.code));
+                    this.list.appendChild(item);
+                });
+
+                // Set initial trigger text
+                const current = langs.find(l => l.code === this.value);
+                this.trigger.textContent = current ? current.name : this.value;
+
+                // Toggle menu
+                this.trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = this.container.classList.contains('open');
+                    document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('open'));
+                    if (!isOpen) {
+                        this.container.classList.add('open');
+                        this.search.focus();
+                    }
+                });
+
+                // Search logic
+                this.search.addEventListener('input', () => {
+                    const q = this.search.value.toLowerCase();
+                    this.list.querySelectorAll('.option-item').forEach(item => {
+                        const match = item.textContent.toLowerCase().includes(q);
+                        item.classList.toggle('hidden', !match);
+                    });
+                });
+
+                // Close on click outside
+                document.addEventListener('click', () => this.container.classList.remove('open'));
+                this.menu.addEventListener('click', (e) => e.stopPropagation());
+            }
+
+            select(code) {
+                this.value = code;
+                const current = langs.find(l => l.code === code);
+                this.trigger.textContent = current ? current.name : code;
+                this.container.classList.remove('open');
+                this.search.value = '';
+                this.list.querySelectorAll('.option-item').forEach(item => {
+                    item.classList.toggle('selected', item.dataset.code === code);
+                    item.classList.remove('hidden');
+                });
+                this.onChange();
+            }
+        }
+
+        const srcDropdown = new DropdownController('src-dropdown', 'auto', doTranslate, true);
+        const destDropdown = new DropdownController('dest-dropdown', 'hi', doTranslate, false);
+
+        // Theme Management
+        const SUN_ICON = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22">';
+        const MOON_ICON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z">';
+
+        function setTheme(isLight) {
+            if (isLight) {
+                document.body.classList.add('light-mode');
+                themeIcon.innerHTML = MOON_ICON;
+            } else {
+                document.body.classList.remove('light-mode');
+                themeIcon.innerHTML = SUN_ICON;
+            }
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = !document.body.classList.contains('light-mode');
+            setTheme(isLight);
         });
 
-        srcSelect.value = 'auto';
-        destSelect.value = 'hi';
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme === 'light');
 
         let timeout = null;
 
         input.addEventListener('input', () => {
             charCount.innerText = \`\${input.value.length} / 5000\`;
             clearTimeout(timeout);
-            timeout = setTimeout(doTranslate, 400);
+            timeout = setTimeout(doTranslate, 600);
         });
 
         async function doTranslate() {
@@ -354,33 +750,53 @@ const guiPage = `<!DOCTYPE html>
                 return;
             }
 
-            output.classList.add('loading-shimmer');
+            outputPanel.classList.add('loading');
             try {
-                const res = await fetch(\`/?text=\${encodeURIComponent(text)}&to=\${destSelect.value}&from=\${srcSelect.value}\`);
+                const res = await fetch(\`/?text=\${encodeURIComponent(text)}&to=\${destDropdown.value}&from=\${srcDropdown.value}\`);
                 const data = await res.json();
                 output.innerText = data.text || 'Error';
             } catch (e) {
                 output.innerText = 'Translation failed.';
             } finally {
-                output.classList.remove('loading-shimmer');
+                outputPanel.classList.remove('loading');
             }
         }
 
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            output.innerText = '';
+            charCount.innerText = '0 / 5000';
+            input.focus();
+        });
+
         swapBtn.addEventListener('click', () => {
-            if (srcSelect.value === 'auto') return;
-            const temp = srcSelect.value;
-            srcSelect.value = destSelect.value;
-            destSelect.value = temp;
+            if (srcDropdown.value === 'auto') return;
+            const temp = srcDropdown.value;
+            srcDropdown.select(destDropdown.value);
+            destDropdown.select(temp);
             doTranslate();
         });
 
         copyBtn.addEventListener('click', () => {
+            if (!output.innerText) return;
             navigator.clipboard.writeText(output.innerText);
-            copyBtn.style.color = '#22c55e';
-            setTimeout(() => copyBtn.style.color = '', 1000);
+            const originalSvg = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            setTimeout(() => copyBtn.innerHTML = originalSvg, 1500);
         });
 
-        // Powerful Continuous Voice Input
+        // TTS
+        function speak(text, lang) {
+            if (!text) return;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang === 'auto' ? '' : lang;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        listenSrcBtn.addEventListener('click', () => speak(input.value, srcDropdown.value));
+        listenDestBtn.addEventListener('click', () => speak(output.innerText, destDropdown.value));
+
+        // Voice Input
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             const recognition = new SpeechRecognition();
@@ -403,7 +819,7 @@ const guiPage = `<!DOCTYPE html>
             recognition.onend = () => {
                 recognizing = false;
                 micBtn.classList.remove('active');
-                doTranslate(); // Final translate on end
+                doTranslate();
             };
             recognition.onresult = (event) => {
                 let transcript = '';
@@ -412,23 +828,13 @@ const guiPage = `<!DOCTYPE html>
                 }
                 input.value = transcript;
                 charCount.innerText = \`\${input.value.length} / 5000\`;
-                
                 clearTimeout(timeout);
-                timeout = setTimeout(doTranslate, 600);
+                timeout = setTimeout(doTranslate, 800);
             };
-            recognition.onerror = (event) => {
-                console.error('Speech error:', event.error);
-                micBtn.classList.remove('active');
-            };
+            recognition.onerror = () => micBtn.classList.remove('active');
         } else {
-            micBtn.title = 'Voice input not supported in this browser';
-            micBtn.style.opacity = '0.3';
-            micBtn.style.cursor = 'not-allowed';
+            micBtn.style.display = 'none';
         }
-
-        // Handle language changes
-        srcSelect.addEventListener('change', doTranslate);
-        destSelect.addEventListener('change', doTranslate);
     </script>
 </body>
 </html>`;
