@@ -23,7 +23,7 @@
     "toc": "markdown-toc README.md -i --maxdepth 4",
     "build:esm": "npx rimraf dist/esm && tsc -p tsconfig.build.json",
     "build:cjs": "npx rimraf dist/cjs && tsc -p tsconfig.build.cjs.json && node -e \"fs.writeFileSync('dist/cjs/package.json', '{\\\"type\\\":\\\"commonjs\\\"}')\"",
-    "build": "npm run build:esm && npm run build:cjs",
+    "build:lib": "npm run build:esm && npm run build:cjs",
     "release": "npm run lint && npm t && npm run build && npm run test:esm && np --yolo --no-release-draft"
   },
   "lint-staged": {
