@@ -43,6 +43,18 @@ const landingPage = `<!DOCTYPE html>
             color: #94a3b8;
             line-height: 1.6;
         }
+        .btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
         .code-box {
             background: #000;
             padding: 1rem;
@@ -85,24 +97,321 @@ const landingPage = `<!DOCTYPE html>
             <span style="color: #6366f1;">GET</span> /?text=<span style="color: #fbbf24;">Hello</span>&to=<span style="color: #fbbf24;">ru</span>
         </div>
         
+        <a href="/gui" class="btn">Open GTranslater GUI</a>
+        
         <p style="margin-top: 2rem; font-size: 0.8rem;">Powered by senzme/gtranslate</p>
     </div>
 </body>
 </html>`;
 
+const guiPage = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTranslater | GUI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4285f4;
+            --bg: #f8f9fa;
+            --text: #202124;
+            --border: #dadce0;
+            --shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #5f6368;
+            font-weight: 400;
+        }
+        header span { color: var(--primary); font-weight: 600; }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        select {
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+            color: #3c4043;
+        }
+
+        .swap-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .swap-btn:hover { background: #f1f3f4; }
+
+        .translator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .translator-container { grid-template-columns: 1fr; height: auto; }
+            .translator-box { height: 200px; }
+        }
+
+        .translator-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: box-shadow 0.2s;
+        }
+        .translator-box:focus-within { box-shadow: var(--shadow); border-color: transparent; }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 1.25rem;
+            outline: none;
+            color: var(--text);
+        }
+
+        .output-box { background: #f1f3f4; }
+        .output-text { font-size: 1.25rem; color: var(--text); white-space: pre-wrap; }
+
+        .bottom-actions {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            color: #5f6368;
+            transition: background 0.2s, color 0.2s;
+        }
+        .icon-btn:hover { background: #f1f3f4; color: var(--text); }
+        .icon-btn.active { color: #d93025; background: #fce8e6; }
+
+        #char-count { margin-left: auto; font-size: 0.8rem; color: #70757a; }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f1f3f4 25%, #e8eaed 50%, #f1f3f4 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><span>G</span>Translater</h1>
+    </header>
+
+    <main>
+        <div class="controls">
+            <select id="src-lang">
+                <option value="auto">Auto-detect</option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="ru">Russian</option>
+                <option value="zh-CN">Chinese</option>
+                <option value="fr">French</option>
+            </select>
+            <button class="swap-btn" id="swap-langs">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" fill="currentColor"/></svg>
+            </button>
+            <select id="dest-lang">
+                <option value="en">English</option>
+                <option value="hi" selected>Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="ru">Russian</option>
+                <option value="zh-CN">Chinese</option>
+                <option value="fr">French</option>
+            </select>
+        </div>
+
+        <div class="translator-container">
+            <div class="translator-box">
+                <textarea id="input-text" placeholder="Type to translate..."></textarea>
+                <div class="bottom-actions">
+                    <button class="icon-btn" id="mic-btn" title="Voice Input">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" fill="currentColor"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" fill="currentColor"/></svg>
+                    </button>
+                    <span id="char-count">0 / 5000</span>
+                </div>
+            </div>
+            <div class="translator-box output-box">
+                <div id="output-text" class="output-text"></div>
+                <div class="bottom-actions">
+                    <button class="icon-btn" id="copy-btn" title="Copy translation">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const input = document.getElementById('input-text');
+        const output = document.getElementById('output-text');
+        const srcLang = document.getElementById('src-lang');
+        const destLang = document.getElementById('dest-lang');
+        const micBtn = document.getElementById('mic-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const swapBtn = document.getElementById('swap-langs');
+        const charCount = document.getElementById('char-count');
+
+        let timeout = null;
+
+        input.addEventListener('input', () => {
+            charCount.innerText = \`\${input.value.length} / 5000\`;
+            clearTimeout(timeout);
+            timeout = setTimeout(doTranslate, 500);
+        });
+
+        async function doTranslate() {
+            const text = input.value.trim();
+            if (!text) {
+                output.innerText = '';
+                return;
+            }
+
+            output.classList.add('loading-shimmer');
+            try {
+                const res = await fetch(\`/?text=\${encodeURIComponent(text)}&to=\${destLang.value}&from=\${srcLang.value}\`);
+                const data = await res.json();
+                output.innerText = data.text || 'Error';
+            } catch (e) {
+                output.innerText = 'Translation failed.';
+            } finally {
+                output.classList.remove('loading-shimmer');
+            }
+        }
+
+        swapBtn.addEventListener('click', () => {
+            if (srcLang.value === 'auto') return;
+            const temp = srcLang.value;
+            srcLang.value = destLang.value;
+            destLang.value = temp;
+            doTranslate();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(output.innerText);
+            copyBtn.style.color = '#22c55e';
+            setTimeout(() => copyBtn.style.color = '', 1000);
+        });
+
+        // Voice Input
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            micBtn.addEventListener('click', () => {
+                if (micBtn.classList.contains('active')) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+
+            recognition.onstart = () => micBtn.classList.add('active');
+            recognition.onend = () => micBtn.classList.remove('active');
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                input.value = transcript;
+                input.dispatchEvent(new Event('input'));
+            };
+        } else {
+            micBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>`;
+
 export default async function handler(req: any, res: any) {
+  const url = new URL(req.url, 'http://localhost');
+  const path = url.pathname;
   const { text, to = 'en', from = 'auto' } = req.query as { text?: string; to?: string; from?: string };
 
-  if (!text) {
+  // Handle GUI page
+  if (path === '/gui') {
     res.setHeader('Content-Type', 'text/html');
-    return res.status(200).send(landingPage);
+    return res.status(200).send(guiPage);
   }
 
-  try {
-    const result = await translate(text, { to, from } as any);
-    res.status(200).json(result);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    res.status(500).json({ error: message });
+  // Handle API request
+  if (text) {
+    try {
+      const result = await translate(text, { to, from } as any);
+      res.status(200).json(result);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(500).json({ error: message });
+    }
+    return;
   }
+
+  // Handle Landing Page
+  res.setHeader('Content-Type', 'text/html');
+  return res.status(200).send(landingPage);
 }
