@@ -441,7 +441,7 @@ const guiPage = `<!DOCTYPE html>
         destSelect.addEventListener('change', doTranslate);
     </script>
 </body>
-</html>\`;
+</html>`;
 
 export default async function handler(req: any, res: any) {
   const url = new URL(req.url, 'http://localhost');
