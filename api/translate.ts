@@ -1,4 +1,4 @@
-import { translate } from '../src/index.js';
+import { translate } from '../src/index.ts';
 
 export default async function handler(req, res) {
   const { text, to = 'en', from = 'auto' } = req.query;
