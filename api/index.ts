@@ -796,45 +796,63 @@ const guiPage = `<!DOCTYPE html>
         listenSrcBtn.addEventListener('click', () => speak(input.value, srcDropdown.value));
         listenDestBtn.addEventListener('click', () => speak(output.innerText, destDropdown.value));
 
-        // Voice Input
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            let recognizing = false;
+            // Voice Input Fix for Mobile Duplication
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                const recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                let recognizing = false;
+                let baseTranscript = ''; // Track confirmed text for this session
 
-            micBtn.addEventListener('click', () => {
-                if (recognizing) {
-                    recognition.stop();
-                } else {
-                    recognition.start();
-                }
-            });
+                micBtn.addEventListener('click', () => {
+                    if (recognizing) {
+                        recognition.stop();
+                    } else {
+                        baseTranscript = input.value; // Start from current input content
+                        recognition.start();
+                    }
+                });
 
-            recognition.onstart = () => {
-                recognizing = true;
-                micBtn.classList.add('active');
-            };
-            recognition.onend = () => {
-                recognizing = false;
-                micBtn.classList.remove('active');
-                doTranslate();
-            };
-            recognition.onresult = (event) => {
-                let transcript = '';
-                for (let i = 0; i < event.results.length; i++) {
-                    transcript += event.results[i][0].transcript;
-                }
-                input.value = transcript;
-                charCount.innerText = \`\${input.value.length} / 5000\`;
-                clearTimeout(timeout);
-                timeout = setTimeout(doTranslate, 800);
-            };
-            recognition.onerror = () => micBtn.classList.remove('active');
-        } else {
-            micBtn.style.display = 'none';
-        }
+                recognition.onstart = () => {
+                    recognizing = true;
+                    micBtn.classList.add('active');
+                };
+                recognition.onend = () => {
+                    recognizing = false;
+                    micBtn.classList.remove('active');
+                    doTranslate();
+                };
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    let newFinalTranscript = '';
+
+                    // Only process results from the current resultIndex to avoid duplication
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            newFinalTranscript += transcript;
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+
+                    // Append new final results permanently to our session base
+                    if (newFinalTranscript) {
+                        baseTranscript += newFinalTranscript;
+                    }
+
+                    // Update input with confirmed text + any currently hearing interim text
+                    input.value = baseTranscript + interimTranscript;
+                    charCount.innerText = \`\${input.value.length} / 5000\`;
+                    
+                    clearTimeout(timeout);
+                    timeout = setTimeout(doTranslate, 800);
+                };
+                recognition.onerror = () => micBtn.classList.remove('active');
+            } else {
+                micBtn.style.display = 'none';
+            }
     </script>
 </body>
 </html>`;
