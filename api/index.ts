@@ -128,7 +128,7 @@ const landingPage = `<!DOCTYPE html>
             <span style="color: #818cf8;">GET</span> /?text=<span style="color: #fbbf24;">Hello</span>&to=<span style="color: #fbbf24;">hi</span>
         </div>
         
-        <a href="/gui" class="btn">Open Premium GUI</a>
+        <a href="/" class="btn">Open Premium GUI</a>
         
         <p style="margin-top: 2.5rem; font-size: 0.85rem; opacity: 0.7;">Powered by Senzme</p>
     </div>
@@ -844,10 +844,10 @@ export default async function handler(req: any, res: any) {
   const path = url.pathname;
   const { text, to = 'en', from = 'auto' } = req.query as { text?: string; to?: string; from?: string };
 
-  // Handle GUI page
+  // Handle Landing Page (shifted to /gui)
   if (path === '/gui') {
     res.setHeader('Content-Type', 'text/html');
-    return res.status(200).send(guiPage);
+    return res.status(200).send(landingPage);
   }
 
   // Handle API request
@@ -862,7 +862,7 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  // Handle Landing Page
+  // Default to GUI Page (at root /)
   res.setHeader('Content-Type', 'text/html');
-  return res.status(200).send(landingPage);
+  return res.status(200).send(guiPage);
 }
