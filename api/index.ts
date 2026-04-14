@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+import { translate } from '../src/index.ts';
+
+const landingPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -86,4 +88,21 @@
         <p style="margin-top: 2rem; font-size: 0.8rem;">Powered by senzme/gtranslate</p>
     </div>
 </body>
-</html>
+</html>`;
+
+export default async function handler(req: any, res: any) {
+  const { text, to = 'en', from = 'auto' } = req.query as { text?: string; to?: string; from?: string };
+
+  if (!text) {
+    res.setHeader('Content-Type', 'text/html');
+    return res.status(200).send(landingPage);
+  }
+
+  try {
+    const result = await translate(text, { to, from } as any);
+    res.status(200).json(result);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    res.status(500).json({ error: message });
+  }
+}
