@@ -1,5 +1,10 @@
 import { translate } from '../src/index.js';
 
+const langList = [
+    { code: 'auto', name: 'Auto-detect' },
+    { code: 'af', name: 'Afrikaans' }, { code: 'sq', name: 'Albanian' }, { code: 'am', name: 'Amharic' }, { code: 'ar', name: 'Arabic' }, { code: 'hy', name: 'Armenian' }, { code: 'az', name: 'Azerbaijani' }, { code: 'eu', name: 'Basque' }, { code: 'be', name: 'Belarusian' }, { code: 'bn', name: 'Bengali' }, { code: 'bs', name: 'Bosnian' }, { code: 'bg', name: 'Bulgarian' }, { code: 'ca', name: 'Catalan' }, { code: 'ceb', name: 'Cebuano' }, { code: 'ny', name: 'Chichewa' }, { code: 'zh-CN', name: 'Chinese (Simplified)' }, { code: 'zh-TW', name: 'Chinese (Traditional)' }, { code: 'co', name: 'Corsican' }, { code: 'hr', name: 'Croatian' }, { code: 'cs', name: 'Czech' }, { code: 'da', name: 'Danish' }, { code: 'nl', name: 'Dutch' }, { code: 'en', name: 'English' }, { code: 'eo', name: 'Esperanto' }, { code: 'et', name: 'Estonian' }, { code: 'tl', name: 'Filipino' }, { code: 'fi', name: 'Finnish' }, { code: 'fr', name: 'French' }, { code: 'fy', name: 'Frisian' }, { code: 'gl', name: 'Galician' }, { code: 'ka', name: 'Georgian' }, { code: 'de', name: 'German' }, { code: 'el', name: 'Greek' }, { code: 'gu', name: 'Gujarati' }, { code: 'ht', name: 'Haitian Creole' }, { code: 'ha', name: 'Hausa' }, { code: 'haw', name: 'Hawaiian' }, { code: 'iw', name: 'Hebrew' }, { code: 'hi', name: 'Hindi' }, { code: 'hmn', name: 'Hmong' }, { code: 'hu', name: 'Hungarian' }, { code: 'is', name: 'Icelandic' }, { code: 'ig', name: 'Igbo' }, { code: 'id', name: 'Indonesian' }, { code: 'ga', name: 'Irish' }, { code: 'it', name: 'Italian' }, { code: 'ja', name: 'Japanese' }, { code: 'jw', name: 'Javanese' }, { code: 'kn', name: 'Kannada' }, { code: 'kk', name: 'Kazakh' }, { code: 'km', name: 'Khmer' }, { code: 'rw', name: 'Kinyarwanda' }, { code: 'ko', name: 'Korean' }, { code: 'ku', name: 'Kurdish (Kurmanji)' }, { code: 'ky', name: 'Kyrgyz' }, { code: 'lo', name: 'Lao' }, { code: 'la', name: 'Latin' }, { code: 'lv', name: 'Latvian' }, { code: 'lt', name: 'Lithuanian' }, { code: 'lb', name: 'Luxembourgish' }, { code: 'mk', name: 'Macedonian' }, { code: 'mg', name: 'Malagasy' }, { code: 'ms', name: 'Malay' }, { code: 'ml', name: 'Malayalam' }, { code: 'mt', name: 'Maltese' }, { code: 'mi', name: 'Maori' }, { code: 'mr', name: 'Marathi' }, { code: 'mn', name: 'Mongolian' }, { code: 'my', name: 'Myanmar (Burmese)' }, { code: 'ne', name: 'Nepali' }, { code: 'no', name: 'Norwegian' }, { code: 'or', name: 'Odia (Oriya)' }, { code: 'ps', name: 'Pashto' }, { code: 'fa', name: 'Persian' }, { code: 'pl', name: 'Polish' }, { code: 'pt', name: 'Portuguese' }, { code: 'pa', name: 'Punjabi' }, { code: 'ro', name: 'Romanian' }, { code: 'ru', name: 'Russian' }, { code: 'sm', name: 'Samoan' }, { code: 'gd', name: 'Scots Gaelic' }, { code: 'sr', name: 'Serbian' }, { code: 'st', name: 'Sesotho' }, { code: 'sn', name: 'Shona' }, { code: 'sd', name: 'Sindhi' }, { code: 'si', name: 'Sinhala' }, { code: 'sk', name: 'Slovak' }, { code: 'sl', name: 'Slovenian' }, { code: 'so', name: 'Somali' }, { code: 'es', name: 'Spanish' }, { code: 'su', name: 'Sundanese' }, { code: 'sw', name: 'Swahili' }, { code: 'sv', name: 'Swedish' }, { code: 'tg', name: 'Tajik' }, { code: 'ta', name: 'Tamil' }, { code: 'tt', name: 'Tatar' }, { code: 'te', name: 'Telugu' }, { code: 'th', name: 'Thai' }, { code: 'tr', name: 'Turkish' }, { code: 'tk', name: 'Turkmen' }, { code: 'uk', name: 'Ukrainian' }, { code: 'ur', name: 'Urdu' }, { code: 'ug', name: 'Uyghur' }, { code: 'uz', name: 'Uzbek' }, { code: 'vi', name: 'Vietnamese' }, { code: 'cy', name: 'Welsh' }, { code: 'xh', name: 'Xhosa' }, { code: 'yi', name: 'Yiddish' }, { code: 'yo', name: 'Yoruba' }, { code: 'zu', name: 'Zulu' }
+];
+
 const landingPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,7 +114,7 @@ const guiPage = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTranslater | GUI</title>
+    <title>GTranslater | Modern GUI</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -173,6 +178,7 @@ const guiPage = `<!DOCTYPE html>
             cursor: pointer;
             outline: none;
             color: #3c4043;
+            max-width: 200px;
         }
 
         .swap-btn {
@@ -192,19 +198,19 @@ const guiPage = `<!DOCTYPE html>
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            height: 300px;
+            height: 350px;
         }
 
         @media (max-width: 768px) {
             .translator-container { grid-template-columns: 1fr; height: auto; }
-            .translator-box { height: 200px; }
+            .translator-box { height: 250px; }
         }
 
         .translator-box {
             background: white;
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -218,19 +224,19 @@ const guiPage = `<!DOCTYPE html>
             border: none;
             resize: none;
             font-family: inherit;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             outline: none;
             color: var(--text);
         }
 
         .output-box { background: #f1f3f4; }
-        .output-text { font-size: 1.25rem; color: var(--text); white-space: pre-wrap; }
+        .output-text { font-size: 1.35rem; color: var(--text); white-space: pre-wrap; overflow-y: auto; }
 
         .bottom-actions {
             position: absolute;
-            bottom: 0.5rem;
-            left: 0.5rem;
-            right: 0.5rem;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            right: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -243,10 +249,21 @@ const guiPage = `<!DOCTYPE html>
             padding: 0.5rem;
             border-radius: 50%;
             color: #5f6368;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            display: flex;
         }
         .icon-btn:hover { background: #f1f3f4; color: var(--text); }
-        .icon-btn.active { color: #d93025; background: #fce8e6; }
+        .icon-btn.active { 
+            color: #d93025; 
+            background: #fce8e6; 
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 48, 37, 0.4); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(217, 48, 37, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 48, 37, 0); }
+        }
 
         #char-count { margin-left: auto; font-size: 0.8rem; color: #70757a; }
 
@@ -265,33 +282,18 @@ const guiPage = `<!DOCTYPE html>
 
     <main>
         <div class="controls">
-            <select id="src-lang">
-                <option value="auto">Auto-detect</option>
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="es">Spanish</option>
-                <option value="ru">Russian</option>
-                <option value="zh-CN">Chinese</option>
-                <option value="fr">French</option>
-            </select>
-            <button class="swap-btn" id="swap-langs">
+            <select id="src-lang"></select>
+            <button class="swap-btn" id="swap-langs" title="Swap languages">
                 <svg width="24" height="24" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" fill="currentColor"/></svg>
             </button>
-            <select id="dest-lang">
-                <option value="en">English</option>
-                <option value="hi" selected>Hindi</option>
-                <option value="es">Spanish</option>
-                <option value="ru">Russian</option>
-                <option value="zh-CN">Chinese</option>
-                <option value="fr">French</option>
-            </select>
+            <select id="dest-lang"></select>
         </div>
 
         <div class="translator-container">
             <div class="translator-box">
                 <textarea id="input-text" placeholder="Type to translate..."></textarea>
                 <div class="bottom-actions">
-                    <button class="icon-btn" id="mic-btn" title="Voice Input">
+                    <button class="icon-btn" id="mic-btn" title="Powerful Voice Input (Continuous)">
                         <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" fill="currentColor"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" fill="currentColor"/></svg>
                     </button>
                     <span id="char-count">0 / 5000</span>
@@ -309,21 +311,40 @@ const guiPage = `<!DOCTYPE html>
     </main>
 
     <script>
+        const langs = \${JSON.stringify(langList)};
         const input = document.getElementById('input-text');
         const output = document.getElementById('output-text');
-        const srcLang = document.getElementById('src-lang');
-        const destLang = document.getElementById('dest-lang');
+        const srcSelect = document.getElementById('src-lang');
+        const destSelect = document.getElementById('dest-lang');
         const micBtn = document.getElementById('mic-btn');
         const copyBtn = document.getElementById('copy-btn');
         const swapBtn = document.getElementById('swap-langs');
         const charCount = document.getElementById('char-count');
+
+        // Populate languages
+        langs.forEach(l => {
+            const opt1 = document.createElement('option');
+            opt1.value = l.code;
+            opt1.textContent = l.name;
+            srcSelect.appendChild(opt1);
+
+            if (l.code !== 'auto') {
+                const opt2 = document.createElement('option');
+                opt2.value = l.code;
+                opt2.textContent = l.name;
+                destSelect.appendChild(opt2);
+            }
+        });
+
+        srcSelect.value = 'auto';
+        destSelect.value = 'hi';
 
         let timeout = null;
 
         input.addEventListener('input', () => {
             charCount.innerText = \`\${input.value.length} / 5000\`;
             clearTimeout(timeout);
-            timeout = setTimeout(doTranslate, 500);
+            timeout = setTimeout(doTranslate, 400);
         });
 
         async function doTranslate() {
@@ -335,7 +356,7 @@ const guiPage = `<!DOCTYPE html>
 
             output.classList.add('loading-shimmer');
             try {
-                const res = await fetch(\`/?text=\${encodeURIComponent(text)}&to=\${destLang.value}&from=\${srcLang.value}\`);
+                const res = await fetch(\`/?text=\${encodeURIComponent(text)}&to=\${destSelect.value}&from=\${srcSelect.value}\`);
                 const data = await res.json();
                 output.innerText = data.text || 'Error';
             } catch (e) {
@@ -346,10 +367,10 @@ const guiPage = `<!DOCTYPE html>
         }
 
         swapBtn.addEventListener('click', () => {
-            if (srcLang.value === 'auto') return;
-            const temp = srcLang.value;
-            srcLang.value = destLang.value;
-            destLang.value = temp;
+            if (srcSelect.value === 'auto') return;
+            const temp = srcSelect.value;
+            srcSelect.value = destSelect.value;
+            destSelect.value = temp;
             doTranslate();
         });
 
@@ -359,34 +380,68 @@ const guiPage = `<!DOCTYPE html>
             setTimeout(() => copyBtn.style.color = '', 1000);
         });
 
-        // Voice Input
+        // Powerful Continuous Voice Input
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             const recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            let recognizing = false;
 
             micBtn.addEventListener('click', () => {
-                if (micBtn.classList.contains('active')) {
+                if (recognizing) {
                     recognition.stop();
                 } else {
                     recognition.start();
                 }
             });
 
-            recognition.onstart = () => micBtn.classList.add('active');
-            recognition.onend = () => micBtn.classList.remove('active');
+            recognition.onstart = () => {
+                recognizing = true;
+                micBtn.classList.add('active');
+            };
+            recognition.onend = () => {
+                recognizing = false;
+                micBtn.classList.remove('active');
+                doTranslate(); // Final translate on end
+            };
             recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                input.value = transcript;
-                input.dispatchEvent(new Event('input'));
+                let finalTranscript = '';
+                let interimTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+
+                if (finalTranscript || interimTranscript) {
+                    input.value = (input.value + ' ' + finalTranscript + interimTranscript).trim();
+                    charCount.innerText = \`\${input.value.length} / 5000\`;
+                    
+                    // Throttle translation during voice input
+                    clearTimeout(timeout);
+                    timeout = setTimeout(doTranslate, 1000);
+                }
+            };
+            recognition.onerror = (event) => {
+                console.error('Speech error:', event.error);
+                micBtn.classList.remove('active');
             };
         } else {
-            micBtn.style.display = 'none';
+            micBtn.title = 'Voice input not supported in this browser';
+            micBtn.style.opacity = '0.3';
+            micBtn.style.cursor = 'not-allowed';
         }
+
+        // Handle language changes
+        srcSelect.addEventListener('change', doTranslate);
+        destSelect.addEventListener('change', doTranslate);
     </script>
 </body>
-</html>`;
+</html>\`;
 
 export default async function handler(req: any, res: any) {
   const url = new URL(req.url, 'http://localhost');
