@@ -406,25 +406,15 @@ const guiPage = `<!DOCTYPE html>
                 doTranslate(); // Final translate on end
             };
             recognition.onresult = (event) => {
-                let finalTranscript = '';
-                let interimTranscript = '';
-
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    if (event.results[i].isFinal) {
-                        finalTranscript += event.results[i][0].transcript;
-                    } else {
-                        interimTranscript += event.results[i][0].transcript;
-                    }
+                let transcript = '';
+                for (let i = 0; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
                 }
-
-                if (finalTranscript || interimTranscript) {
-                    input.value = (input.value + ' ' + finalTranscript + interimTranscript).trim();
-                    charCount.innerText = \`\${input.value.length} / 5000\`;
-                    
-                    // Throttle translation during voice input
-                    clearTimeout(timeout);
-                    timeout = setTimeout(doTranslate, 1000);
-                }
+                input.value = transcript;
+                charCount.innerText = \`\${input.value.length} / 5000\`;
+                
+                clearTimeout(timeout);
+                timeout = setTimeout(doTranslate, 600);
             };
             recognition.onerror = (event) => {
                 console.error('Speech error:', event.error);
